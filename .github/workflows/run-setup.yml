@@ -1,0 +1,24 @@
+name: Run Setup and Build ISO
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Make setup executable and run it
+        run: |
+          chmod +x setup.sh
+          ./setup.sh
+
+      - name: Commit generated files back to repo
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Auto-generate live-build configuration"
+          
